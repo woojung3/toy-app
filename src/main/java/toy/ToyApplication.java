@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 //@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-public class DemoApplication {
+public class ToyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(ToyApplication.class, args);
     }
 
 }
