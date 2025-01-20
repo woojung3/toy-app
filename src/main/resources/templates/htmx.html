@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+
+
+<body>
+    <main>
+        <div layout:fragment="layout-title">
+            <h1 class="mb-0 h4">Click to Edit</h1>
+        </div>
+
+        <div class="container" layout:fragment="layout-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Section: Content-->
+                    <section class="shadow-5 p-4 mb-4">
+                        <div th:fragment="get" hx-target="this" hx-swap="outerHTML">
+                            <div class="mb-4"><label>First Name</label>: <span th:text="${username}">Joe</span></div>
+                            <button hx-get="/contact/1/edit" class="btn btn-primary">
+                                Click To Edit
+                            </button>
+                        </div>
+                    </section>
+
+                    <section class="shadow-5 p-4 mb-4" style="display: none;">
+                        <form th:fragment="edit" hx-get="/contact/1" hx-target="this" hx-swap="outerHTML">
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="text" name="username" id="username" class="form-control form-control-lg"
+                                    autofocus />
+                                <label class="form-label">First Name</label>
+                            </div>
+                            <button class="btn btn-primary me-1">Submit</button>
+                            <button class="btn btn-secondary" hx-get="/contact/1">Cancel</button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

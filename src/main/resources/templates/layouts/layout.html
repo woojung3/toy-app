@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Jinwoo Lee's Toy Utilities</title>
+    <!-- MDB icon -->
+    <link rel="icon" th:href="@{resources/images/icons8-favicon-16.png}" type="image/x-icon" />
+    <!-- Bootstrap core CSS -->
+    <!--<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.css}"/>-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.0.0/css/all.min.css}" />
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.min.css" />
+    <!-- Custom styles -->
+    <style></style>
+</head>
+
+<body>
+    <!-- Modals -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel" th:text="#{logout}">Logout</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Do you want to logout?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-ripple-init
+                        data-mdb-dismiss="modal">Cancel</button>
+                    <button hx:get="@{/logout}" hx:target="body" type="button" class="btn btn-primary"
+                        th:text="#{logout}">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modals -->
+
+    <!--Main Navigation-->
+    <header>
+        <!-- Intro settings -->
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+
+            #intro {
+                /* Margin to fix overlapping fixed navbar */
+                margin-top: 58px;
+            }
+
+            body {
+                background-color: #fbfbfb;
+            }
+
+            @media (min-width: 991.98px) {
+                main {
+                    padding-left: 240px;
+                }
+
+                .navbar {
+                    display: none;
+                }
+
+                #intro {
+                    margin-top: 0px;
+                }
+            }
+
+            /* Sidebar */
+            .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                padding: 0px 0 0;
+                /* Height of navbar */
+                box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+                width: 240px;
+                z-index: 600;
+            }
+
+            @media (max-width: 991.98px) {
+                .sidebar {
+                    width: 100%;
+                    padding: 58px 0 0;
+                }
+
+                .hidden-mobile {
+                    display: none;
+                }
+            }
+
+            .sidebar .active {
+                border-radius: 5px;
+                box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+            }
+
+            .sidebar-sticky {
+                position: relative;
+                top: 0;
+                height: calc(100vh - 48px);
+                padding-top: 0.5rem;
+                overflow-x: hidden;
+                overflow-y: auto;
+                /* Scrollable contents if viewport is shorter than content. */
+            }
+
+        </style>
+
+        <!-- Sidebar -->
+        <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+            <div class="position-sticky">
+                <div class="list-group list-group-flush mx-3 mt-4">
+                    <div class="hidden-mobile">
+                        <a class="ripple d-flex justify-content-center py-4" href="/" data-mdb-ripple-color="primary">
+                            <img id="site-logo" class="hidden-mobile" th:src="@{resources/images/site-logo.png}"
+                                alt="Logo" draggable="false" style="max-width: 100%">
+                        </a>
+
+                        <hr class="hr">
+                        </hr>
+                    </div>
+
+                    <th:block th:switch="${#lists.contains({'/', '/sample'}, requestURI)}">
+                        <a th:case=true th:href="@{~/sample}"
+                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true">
+                            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sample dashboard</span>
+                        </a>
+                        <a th:case=false th:href="@{~/sample}"
+                            class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sample dashboard</span>
+                        </a>
+                    </th:block>
+                    <th:block th:switch="${#lists.contains({'/htmx'}, requestURI)}">
+                        <a th:case="true" href="#collapseHtmx"
+                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true"
+                            data-mdb-collapse-init aria-expanded="true" aria-controls="collapseHtmx">
+                            <i class="fas fa-globe fa-fw me-3"></i><span>HTMX demo</span></a>
+                        </a>
+                        <a th:case="false" href="#collapseHtmx"
+                            class="list-group-item list-group-item-action py-2 ripple" data-mdb-collapse-init
+                            aria-expanded="true" aria-controls="collapseHtmx">
+                            <i class="fas fa-globe fa-fw me-3"></i><span>HTMX demo</span></a>
+                        </a>
+                        <ul id="collapseHtmx" class="collapse show list-group list-group-flush">
+                            <li class="list-group-item py-1">
+                                <a th:href="@{~/htmx}" class="text-reset">Click to Edit</a>
+                            </li>
+                        </ul>
+                    </th:block>
+                    <th:block th:switch="${#lists.contains({'/chart'}, requestURI)}">
+                        <a th:case="true" href="#collapseJsShowcase"
+                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true"
+                            data-mdb-collapse-init aria-expanded="true" aria-controls="collapseJsShowcase">
+                            <i class="fas fa-globe fa-fw me-3"></i><span>JS Components</span></a>
+                        </a>
+                        <a th:case="false" href="#collapseJsShowcase"
+                            class="list-group-item list-group-item-action py-2 ripple" data-mdb-collapse-init
+                            aria-expanded="true" aria-controls="collapseJsShowcase">
+                            <i class="fas fa-globe fa-fw me-3"></i><span>JS Components</span></a>
+                        </a>
+                        <ul id="collapseJsShowcase" class="collapse show list-group list-group-flush">
+                            <li class="list-group-item py-1">
+                                <a th:href="@{~/chart}" class="text-reset">Chart</a>
+                            </li>
+                        </ul>
+                    </th:block>
+                    <th:block th:switch="${#lists.contains({'/about'}, requestURI)}">
+                        <a th:case="true" th:href="@{~/about}"
+                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true">
+                            <i class="fas fa-globe fa-fw me-3"></i><span>About</span></a>
+                        </a>
+                        <a th:case="false" th:href="@{~/about}"
+                            class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-globe fa-fw me-3"></i><span>About</span></a>
+                        </a>
+                    </th:block>
+
+                    <a href="#" class="list-group-item list-group-item-action py-2 ripple" data-mdb-ripple-init
+                        data-mdb-modal-init data-mdb-target="#logoutModal">
+                        <i class="fas fa-arrow-right-from-bracket fa-fw me-3"></i><span
+                            th:text="#{logout}">Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- Sidebar -->
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container-fluid">
+                <!-- Navbar brand -->
+                <a class="navbar-brand" target="_self" th:href="@{~/}">
+                    <!-- height should be 16 -->
+                    <i class="fa-solid fa-book-open-reader fa-1x"></i>
+                </a>
+
+                <!-- Toggle GNB button -->
+                <!--<button data-mdb-button-init class="navbar-toggler" type="button" data-mdb-collapse-init
+                    data-mdb-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fas fa-bars text-dark"></i>
+                </button>-->
+
+                <!-- Toggle sidebar button -->
+                <button data-mdb-button-init class="navbar-toggler" type="button" data-mdb-collapse-init
+                    data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu" aria-controls="sidebarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" target="_self" th:href="@{~/}">Home</a>
+                            <!--<a class="nav-link" aria-current="page" href="#intro">Home</a>-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar -->
+    </header>
+    <!--Main Navigation-->
+
+    <!--Main layout-->
+    <main class="mt-4 mb-5">
+        <!-- Jumbotron -->
+        <div id="intro" class="py-5 text-center bg-light" layout:fragment="layout-title">
+            <h1 class="mb-0 h4">Layout Page</h1>
+        </div>
+
+        <!-- Jumbotron -->
+        <div layout:fragment="layout-content">
+            <div class="text-end mb-3">
+                Layout text
+            </div>
+        </div>
+    </main>
+    <!--Main layout-->
+
+    <!--Footer-->
+    <footer class="bg-light text-lg-left fixed-bottom">
+        <!-- Copyright -->
+        <div class="text-end p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2025 Copyright: Jinwoo Lee
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!--Footer-->
+
+</body>
+
+<!-- Bootstrap -->
+<!--<script th:href="@{/webjars/bootstrap/5.3.3/js/bootstrap.js}"></script>-->
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.umd.min.js"></script>
+<!-- Custom scripts -->
+<script type="text/javascript"></script>
+<!-- Alpine.js -->
+<script defer th:src="@{/webjars/alpinejs/3.14.8/dist/cdn.js}"></script>
+<!-- HTMX -->
+<script type="text/javascript" th:src="@{/webjars/htmx.org/2.0.4/dist/htmx.min.js}"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script layout:fragment="layout-script"></script>
+
+</html>

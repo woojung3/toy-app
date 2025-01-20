@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Jinwoo Lee's Toy Utilities</title>
+    <!-- MDB icon -->
+    <link rel="icon" th:href="@{resources/images/icons8-favicon-16.png}" type="image/x-icon" />
+    <!-- Bootstrap core CSS -->
+    <!--<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.css}"/>-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.0.0/css/all.min.css}" />
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.min.css" />
+    <!-- Custom styles -->
+    <style></style>
+</head>
+
+<body>
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex align-items-center justify-content-center h-100">
+                <div class="col-md-8 col-lg-7 col-xl-6">
+                    <img th:src="@{resources/images/login-form.webp}" alt="Login form" class="img-fluid mb-4">
+                </div>
+                <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                    <form th:action="@{/login}" method="post">
+                        <fieldset>
+                            <div th:if="${param.error}" class="alert alert-danger mb-4">
+                                Invalid username or password.
+                            </div>
+
+                            <!-- Email(email)/Username(text) input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="text" name="username" id="username" class="form-control form-control-lg"
+                                    required autofocus />
+                                <label class="form-label">Username(user)</label>
+                            </div>
+
+                            <!-- Password input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="password" name="password" id="password"
+                                    class="form-control form-control-lg" required />
+                                <label class="form-label">Password(password)</label>
+                            </div>
+
+                            <div class="d-flex justify-content-around align-items-center mb-4">
+                                <!-- Checkbox -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" checked
+                                        onclick="alert('to be added')" />
+                                    <label class="form-check-label"> Remember me </label>
+                                </div>
+                                <a href="#!">Forgot password?</a>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                            <a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" th:href="@{/register}"
+                                role="button" onclick="alert('sample page with no feature')">
+                                Sign up
+                            </a>
+                        </fieldset>
+                    </form>
+
+                    <hr class="hr mt-4 mb-4">
+                    </hr>
+
+                    <a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998"
+                        href="#!" role="button" onclick="alert('to be added')">
+                        <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
+                    </a>
+                    <a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: #55acee"
+                        href="#!" role="button" onclick="alert('to be added')">
+                        <i class="fab fa-twitter me-2"></i>Continue with Twitter</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<!-- Bootstrap -->
+<!--<script th:href="@{/webjars/bootstrap/5.3.3/js/bootstrap.js}"></script>-->
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.umd.min.js"></script>
+<!-- Alpine.js -->
+<script defer th:src="@{/webjars/alpinejs/3.14.8/dist/cdn.js}"></script>
+
+<!-- Custom scripts -->
+<script type="text/javascript"></script>
+
+</html>

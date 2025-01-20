@@ -1,0 +1,12 @@
+[Unit]
+Description=toy-app
+After=syslog.target
+
+[Service]
+User=jwlee
+Environment=PATH=/home/jwlee/.sdkman/candidates/java/current/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/jwlee/workspace/toy-app/target/toy-app-0.0.1-SNAPSHOT.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+
+
+<body>
+    <main>
+        <div layout:fragment="layout-title">
+            <h1 class="mb-0 h4">Chart</h1>
+        </div>
+
+        <div layout:fragment="layout-content">
+            <div class="text-center mb-3">
+                Chart sample
+            </div>
+
+            <div x-cloak hx:get="@{/chart/update}" hx:swap="outerHTML" th:fragment="chart"
+                class="chart-container row d-flex justify-content-center" x-data="{ chart: null }" th:x-init="|
+                chart = new Chart(document.getElementById('myChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [${#strings.listJoin(votes, ',')}],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        },
+                        animation: false
+                    }
+                });
+            |">
+                <div class="col-md-6">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+<script layout:fragment="layout-script">
+</script>
+
+</html>
