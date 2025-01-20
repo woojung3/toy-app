@@ -1,12 +1,13 @@
 package toy.admin.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -14,7 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -55,6 +60,60 @@ public class WebAppController {
     @GetMapping("/about")
     public String layout(Model model) {
         return "about";
+    }
+
+    @GetMapping("/zlint")
+    public String zlint(Model model) {
+        List<String[]> sample = new ArrayList<>();
+        sample.add(new String[] { "item", "value" });
+
+        String certificate = """
+                -----BEGIN CERTIFICATE-----
+                MIIFpDCCA4ygAwIBAgIDQrHDMA0GCSqGSIb3DQEBCwUAMGsxEzARBgoJkiaJk/Is
+                ZAEZFgNjb20xFzAVBgoJkiaJk/IsZAEZFgd2d2dyb3VwMRMwEQYKCZImiZPyLGQB
+                GRYDcGtpMSYwJAYDVQQDEx1Wb2xrc3dhZ2VuIEFHIFJvb3QgQ0EgQUFMMSBHMTAe
+                Fw0xOTA4MjExMDAwMDBaFw0zNTA4MjExMDAwMDBaMGsxEzARBgoJkiaJk/IsZAEZ
+                FgNjb20xFzAVBgoJkiaJk/IsZAEZFgd2d2dyb3VwMRMwEQYKCZImiZPyLGQBGRYD
+                cGtpMSYwJAYDVQQDEx1Wb2xrc3dhZ2VuIEFHIFJvb3QgQ0EgQUFMMSBHMTCCAiAw
+                DQYJKoZIhvcNAQEBBQADggINADCCAggCggIBAM5oWZsegUK6/NRRVKmHkGyR0huK
+                /Dpsh8eIfp98KKHkluzdKJU3WWBDmawTjMmQbvaKukefX4rYFAYuvKM28/YWMrjN
+                KrvVyupNFpT6wMATYuW4hEx0giSS+TJMmT3bfG/4Z0cuyePJJgK7TiTE9T7iWkFL
+                BjWlfZncugCzDQLQ7ZmtU6f9NS1LM899/kGToqovtp0G1JK7eo1Y6yOWpkuWOdT+
+                VL1kQDZ+tXnPJz41LdDa9sPYmIEEJwwCWNec3sT7WWC4SP7uEGCBK7dTCn6fHDBs
+                1lAcOQmKMyGj9iM3NdsGL3mP6sPWtjMREGLDN2JBur2navTljdGHXEkToT5ZVgh6
+                sr4rR4GeO929gT8yAgnhY472tQ3q2TSRM5wbXp/IOlNTU6/wwF7GnSVY8Q98oCvU
+                8VVbgw9xEOD3XwbKJZDdqDaQPIEG7TSHWTYhswHoJ0b5xzurpAHPu61nvyWlc+D2
+                v0qhj8swYKuPhJgqe5nU2/WXJ8oUr75gZFIYcrNhuvmptzI4Fy+GviylDnZIDJeQ
+                cI4B+CpcOlLYOhr3H6ieYh0bxO8N0n2nTBTglT3YWAuN2XRmIsBppzIA+ng4B8p5
+                0iy4GGkOqk+CpZGFe+5wRyv4ClCB3SxQYAXaKQU780HOxWAldnBRkbVK51yttXCe
+                Gv+V+K1qRJ9oLfAZAgERo1MwUTAPBgNVHRMBAf8EBTADAQH/MBEGA1UdDgQKBAhE
+                UnHozqITODAeBgNVHSAEFzAVMBMGESsGAQQBmQqOWxQBAQIBAQEAMAsGA1UdDwQE
+                AwIBBjANBgkqhkiG9w0BAQsFAAOCAgEAfaKoVVV80T5Z+XSfuiIbc9sLE+3yKuIb
+                9dW9Irs7e0oB9KbCitDOT9VNeo66iVrkC9b3BO5zsKA39PgUillJJ1ieO1+LquUW
+                6IzSEB0zRYHa+MTWCbQPgVGfm19oEJA6rwWOoXQIG6AyUeXHTAhundg/dUTnvlc+
+                sNLWHs+2lCOb3YXmfNtz2HU1h7tpRHvm1gnja7fAbM0895DLs/x9jl9wLscnW9zD
+                M8kpfH5gjkt6Vpav+JQvfQya1xLETvcn4tnuhUi0AIhtpH0UYxhXs4KbL5Ao457E
+                0lOWHJxjOFLib5GKy/CO7FIQUwovbF+sY6CcM6zdJeqGGnvhozQbWpw+lW7xoQRv
+                r/lDcgIzNyMQKDKLytm3RT0YyBb6LJ7VIyVOQY8qgyBgWzMzwhC7aukiuoFi9dD3
+                dRT6lUUVZBjuJx5uEpFkOh9EJpnK2iz0AZy/VpfPiYF/OHWWuzqIb5QGswXybxJJ
+                aYm98CkUPX2Vdx9sH6SQaNZEJiUYG1ufSkADXK1/l56sIZZWCukHIO4TZo0D0GA1
+                pD+jDD+nr9ODMmC7FhhlQpMHXjtFYpPbb3o7ywj/kxHaj2QFwlLInqJoXx6yuex/
+                iH0UqGC0nVHPA2OXcDX5h3icJufsztxKRPACxnA71wiCm6quNID+9+Q0YH57o4Vi
+                BttIE9F/Ko8=
+                -----END CERTIFICATE-----
+                    """;
+
+        model.addAttribute("certificate", certificate);
+        model.addAttribute("result", sample);
+        return "zlint";
+    }
+
+    @PostMapping("/zlint")
+    public String zlintUpdate(@RequestParam("pem") String pem, Model model) throws IOException {
+        var result = zlint(pem);
+
+        model.addAttribute("result", result);
+        return "zlint :: resultTable";
     }
 
     @GetMapping("/htmx")
@@ -107,16 +166,29 @@ public class WebAppController {
         return request.getRequestURI();
     }
 
-    String echo() throws IOException {
-        ProcessBuilder pb = new ProcessBuilder("echo", "babo", "monchongi");
-        Map<String, String> env = pb.environment();
-        env.put("VAR1", "myValue");
-        env.remove("OTHERVAR");
-        env.put("VAR2", env.get("VAR1") + "suffix");
-        pb.directory(new File("./"));
-        Process p = pb.start();
+    List<String[]> zlint(String pem) throws IOException {
+        List<Process> processes = ProcessBuilder.startPipeline(List.of(
+                new ProcessBuilder("echo", pem)
+                        .inheritIO().redirectOutput(ProcessBuilder.Redirect.PIPE),
+                new ProcessBuilder("zlint")
+                        .redirectError(ProcessBuilder.Redirect.INHERIT)));
 
-        return new String(p.getInputStream().readAllBytes());
+        String json;
+        try (Scanner s = new Scanner(processes.get(processes.size() - 1).getInputStream())) {
+            json = s.nextLine();
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(json);
+
+        List<String[]> result = new ArrayList<String[]>();
+        Iterator<Map.Entry<String, JsonNode>> fields = rootNode.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> field = fields.next();
+            result.add(new String[] { field.getKey(), field.getValue().get("result").asText() });
+        }
+
+        return result;
     }
 
     // For testing errorprone

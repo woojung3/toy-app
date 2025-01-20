@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+
+
+<body>
+    <main>
+        <div layout:fragment="layout-title">
+            <h1 class="mb-0 h4">X.509 Linter</h1>
+        </div>
+
+        <div class="container" layout:fragment="layout-content">
+            <div class="text-center mb-3">
+                X.509 Certificate Linting (by zlint)
+            </div>
+            <div class="row">
+                <section class="shadow-5 p-4 mb-4">
+                    <form hx:post="@{/zlint}" hx-target="#resultTable" hx-swap="outerHTML">
+                        <div class="form-outline" data-mdb-input-init>
+                            <textarea class="form-control mb-4" name="pem" id="pem" rows="8"
+                                th:text="${certificate}"></textarea>
+                            <label class="form-label" for="pem">Certificate (PEM)</label>
+                        </div>
+
+                        <button class="btn btn-primary me-1">Submit</button>
+                    </form>
+                </section>
+
+                <div th:fragment="resultTable" id="resultTable" x-cloak class="mb-5 col-md-12 text-center"
+                    x-data="{ table: null }" th:x-init="|table = new DataTable('#zlintTable', 
+                    {
+                        paging: false, 
+                        order: [1, 'asc']
+                    });|">
+                    <table id="zlintTable" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${result}">
+                                <td th:text="${item[0]}">e_...</td>
+                                <td th:text="${item[1]}">NA</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Item</th>
+                                <th>Result</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
