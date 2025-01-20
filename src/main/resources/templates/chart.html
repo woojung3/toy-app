@@ -14,7 +14,7 @@
                 Chart sample
             </div>
 
-            <div x-cloak hx:get="@{/chart/update}" hx:swap="outerHTML" th:fragment="chart"
+            <div x-cloak th:fragment="chart"
                 class="chart-container row d-flex justify-content-center" x-data="{ chart: null }" th:x-init="|
                 chart = new Chart(document.getElementById('myChart'), {
                     type: 'bar',
