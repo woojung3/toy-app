@@ -124,7 +124,8 @@
         </style>
 
         <!-- Sidebar -->
-        <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+        <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white"
+            th:x-data="|{ requestURI: '${requestURI}'}|">
             <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
                     <div class="hidden-mobile">
@@ -137,77 +138,41 @@
                         </hr>
                     </div>
 
-                    <th:block th:switch="${#lists.contains({'/', '/sample'}, requestURI)}">
-                        <a th:case=true th:href="@{~/sample}"
-                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true">
-                            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sample dashboard</span>
-                        </a>
-                        <a th:case=false th:href="@{~/sample}"
-                            class="list-group-item list-group-item-action py-2 ripple">
-                            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sample dashboard</span>
-                        </a>
-                    </th:block>
-                    <th:block th:switch="${#lists.contains({'/zlint'}, requestURI)}">
-                        <a th:case="true" href="#collapseTools"
-                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true"
-                            data-mdb-collapse-init aria-expanded="true" aria-controls="collapseTools">
-                            <i class="fas fa-toolbox fa-fw me-3"></i><span>Tools</span></a>
-                        </a>
-                        <a th:case="false" href="#collapseTools"
-                            class="list-group-item list-group-item-action py-2 ripple" data-mdb-collapse-init
-                            aria-expanded="true" aria-controls="collapseTools">
-                            <i class="fas fa-toolbox fa-fw me-3"></i><span>Tools</span></a>
-                        </a>
-                        <ul id="collapseTools" class="collapse show list-group list-group-flush">
-                            <li class="list-group-item py-1">
-                                <a th:href="@{~/zlint}" class="text-reset">X.509 Linter</a>
-                            </li>
-                        </ul>
-                    </th:block>
-                    <th:block th:switch="${#lists.contains({'/htmx'}, requestURI)}">
-                        <a th:case="true" href="#collapseHtmx"
-                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true"
-                            data-mdb-collapse-init aria-expanded="true" aria-controls="collapseHtmx">
-                            <i class="fas fa-code fa-fw me-3"></i><span>HTMX demo</span></a>
-                        </a>
-                        <a th:case="false" href="#collapseHtmx"
-                            class="list-group-item list-group-item-action py-2 ripple" data-mdb-collapse-init
-                            aria-expanded="true" aria-controls="collapseHtmx">
-                            <i class="fas fa-code fa-fw me-3"></i><span>HTMX demo</span></a>
-                        </a>
-                        <ul id="collapseHtmx" class="collapse show list-group list-group-flush">
-                            <li class="list-group-item py-1">
-                                <a th:href="@{~/htmx}" class="text-reset">Click to Edit</a>
-                            </li>
-                        </ul>
-                    </th:block>
-                    <th:block th:switch="${#lists.contains({'/chart'}, requestURI)}">
-                        <a th:case="true" href="#collapseJsShowcase"
-                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true"
-                            data-mdb-collapse-init aria-expanded="true" aria-controls="collapseJsShowcase">
-                            <i class="fas fa-globe fa-fw me-3"></i><span>JS Components</span></a>
-                        </a>
-                        <a th:case="false" href="#collapseJsShowcase"
-                            class="list-group-item list-group-item-action py-2 ripple" data-mdb-collapse-init
-                            aria-expanded="true" aria-controls="collapseJsShowcase">
-                            <i class="fas fa-globe fa-fw me-3"></i><span>JS Components</span></a>
-                        </a>
-                        <ul id="collapseJsShowcase" class="collapse show list-group list-group-flush">
-                            <li class="list-group-item py-1">
-                                <a th:href="@{~/chart}" class="text-reset">Chart</a>
-                            </li>
-                        </ul>
-                    </th:block>
-                    <th:block th:switch="${#lists.contains({'/about'}, requestURI)}">
-                        <a th:case="true" th:href="@{~/about}"
-                            class="list-group-item list-group-item-action py-2 active ripple" aria-current="true">
-                            <i class="fas fa-globe fa-fw me-3"></i><span>About</span></a>
-                        </a>
-                        <a th:case="false" th:href="@{~/about}"
-                            class="list-group-item list-group-item-action py-2 ripple">
-                            <i class="fas fa-globe fa-fw me-3"></i><span>About</span></a>
-                        </a>
-                    </th:block>
+                    <a th:href="@{~/sample}" class="list-group-item list-group-item-action py-2 ripple"
+                        :class="['/', '/sample'].includes(requestURI) && 'active'">
+                        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Sample dashboard</span>
+                    </a>
+                    <a href="#collapseTools" class="list-group-item list-group-item-action py-2 ripple"
+                        data-mdb-collapse-init aria-expanded="true" aria-controls="collapseTools">
+                        <i class="fas fa-toolbox fa-fw me-3"></i><span>Tools</span></a>
+                    </a>
+                    <ul id="collapseTools" class="collapse list-group list-group-flush" :class="['/zlint'].includes(requestURI) && 'show'">
+                        <li class="list-group-item py-1" :class="['/zlint'].includes(requestURI) && 'active'">
+                            <a th:href="@{~/zlint}" class="text-reset">X.509 Linter</a>
+                        </li>
+                    </ul>
+                    <a href="#collapseHtmx" class="list-group-item list-group-item-action py-2 ripple"
+                        data-mdb-collapse-init aria-expanded="true" aria-controls="collapseHtmx">
+                        <i class="fas fa-code fa-fw me-3"></i><span>HTMX demo</span></a>
+                    </a>
+                    <ul id="collapseHtmx" class="collapse list-group list-group-flush" :class="['/htmx'].includes(requestURI) && 'show'">
+                        <li class="list-group-item py-1" :class="['/htmx'].includes(requestURI) && 'active'">
+                            <a th:href="@{~/htmx}" class="text-reset">Click to Edit</a>
+                        </li>
+                    </ul>
+                    <a href="#collapseJsShowcase" class="list-group-item list-group-item-action py-2 ripple"
+                        data-mdb-collapse-init aria-expanded="true" aria-controls="collapseJsShowcase">
+                        <i class="fas fa-globe fa-fw me-3"></i><span>JS Components</span></a>
+                    </a>
+                    <ul id="collapseJsShowcase" class="collapse list-group list-group-flush" :class="['/chart'].includes(requestURI) && 'show'">
+                        <li class="list-group-item py-1" :class="['/chart'].includes(requestURI) && 'active'">
+                            <a th:href="@{~/chart}" class="text-reset">Chart</a>
+                        </li>
+                    </ul>
+                    <a th:href="@{~/about}" class="list-group-item list-group-item-action py-2 ripple"
+                        :class="['/about'].includes(requestURI) && 'active'">
+                        <i class="fas fa-globe fa-fw me-3"></i><span>About</span></a>
+                    </a>
 
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple" data-mdb-ripple-init
                         data-mdb-modal-init data-mdb-target="#logoutModal">

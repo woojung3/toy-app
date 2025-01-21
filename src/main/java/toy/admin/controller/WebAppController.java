@@ -2,6 +2,7 @@ package toy.admin.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -185,7 +186,13 @@ public class WebAppController {
         Iterator<Map.Entry<String, JsonNode>> fields = rootNode.fields();
         while (fields.hasNext()) {
             Map.Entry<String, JsonNode> field = fields.next();
-            result.add(new String[] { field.getKey(), field.getValue().get("result").asText() });
+
+            var key = field.getKey();
+            var val = field.getValue().get("result").asText();
+
+            if (!Arrays.asList("NA", "pass").contains(val)) {
+                result.add(new String[] { key, val });
+            }
         }
 
         return result;
