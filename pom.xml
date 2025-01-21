@@ -197,6 +197,7 @@
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+                            <artifactId>1.18.30</artifactId>
 						</exclude>
 					</excludes>
 				</configuration>

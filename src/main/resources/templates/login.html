@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Jinwoo Lee's Toy Utilities</title>
+    <title th:text="#{site.title}">Jinwoo Lee's Toy Utilities</title>
     <!-- MDB icon -->
     <link rel="icon" th:href="@{resources/images/icons8-favicon-16.png}" type="image/x-icon" />
     <!-- Bootstrap core CSS -->
@@ -25,27 +25,27 @@
         <div class="container py-5 h-100">
             <div class="row d-flex align-items-center justify-content-center h-100">
                 <div class="col-md-8 col-lg-7 col-xl-6">
-                    <img th:src="@{resources/images/login-form.webp}" alt="Login form" class="img-fluid mb-4">
+                    <img th:src="@{resources/images/login-form.jpeg}" alt="Login form" class="img-fluid mb-4">
                 </div>
                 <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                     <form th:action="@{/login}" method="post">
                         <fieldset>
                             <div th:if="${param.error}" class="alert alert-danger mb-4">
-                                Invalid username or password.
+                                Invalid username or password(username: user, password: password).
                             </div>
 
                             <!-- Email(email)/Username(text) input -->
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="text" name="username" id="username" class="form-control form-control-lg"
                                     required autofocus />
-                                <label class="form-label">Username(user)</label>
+                                <label class="form-label">Username</label>
                             </div>
 
                             <!-- Password input -->
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="password" name="password" id="password"
                                     class="form-control form-control-lg" required />
-                                <label class="form-label">Password(password)</label>
+                                <label class="form-label">Password</label>
                             </div>
 
                             <div class="d-flex justify-content-around align-items-center mb-4">
@@ -60,23 +60,8 @@
 
                             <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-                            <a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" th:href="@{/register}"
-                                role="button" onclick="alert('sample page with no feature')">
-                                Sign up
-                            </a>
                         </fieldset>
                     </form>
-
-                    <hr class="hr mt-4 mb-4">
-                    </hr>
-
-                    <a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998"
-                        href="#!" role="button" onclick="alert('to be added')">
-                        <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
-                    </a>
-                    <a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: #55acee"
-                        href="#!" role="button" onclick="alert('to be added')">
-                        <i class="fab fa-twitter me-2"></i>Continue with Twitter</a>
                 </div>
             </div>
         </div>
