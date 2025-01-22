@@ -2,7 +2,6 @@ package toy.config.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import toy.config.domain.MemberRepository;
 @RequiredArgsConstructor
 public class LoginService {
 
-    @Autowired
     private final MemberRepository memberRepository;
 
     public Member save(Member member) {

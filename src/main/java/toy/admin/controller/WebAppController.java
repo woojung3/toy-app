@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +23,27 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import toy.config.GlobalSecurityConfig.SecurityService;
+import toy.config.service.LoginService;
 
+@Slf4j
 @Controller
 public class WebAppController {
     private final String appMode;
+    private final LoginService loginService;
+    private final PasswordEncoder passwordEncoder;
+    private final SecurityService securityService;
 
-    @Autowired
-    public WebAppController(Environment environment) {
+    public WebAppController(
+            Environment environment,
+            LoginService loginService,
+            PasswordEncoder passwordEncoder,
+            SecurityService securityService) {
         appMode = environment.getProperty("app-mode");
+        this.loginService = loginService;
+        this.passwordEncoder = passwordEncoder;
+        this.securityService = securityService;
     }
 
     @GetMapping("/")
@@ -48,9 +61,20 @@ public class WebAppController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String register(Model model) throws IOException {
-        return "register";
+    @PostMapping("/register")
+    public String register(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            Model model) throws IOException {
+
+        try {
+            loginService.save(securityService.createUser(username, password, passwordEncoder));
+            return "login";
+        } catch (Exception e) {
+        } finally {
+        }
+
+        return "redirect:/login?duplicate";
     }
 
     @GetMapping("/sample")

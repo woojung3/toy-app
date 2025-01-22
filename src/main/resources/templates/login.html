@@ -21,6 +21,44 @@
 </head>
 
 <body>
+    <!-- Modals -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form th:action="@{/register}" method="post" class="m-4">
+                        <div class="mb-4">Do you want to register?</div>
+
+                        <!-- Email(email)/Username(text) input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" name="username" id="username" class="form-control form-control-lg"
+                                required autofocus />
+                            <label class="form-label">Username</label>
+                        </div>
+
+                        <!-- Password input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" name="password" id="password" class="form-control form-control-lg"
+                                required />
+                            <label class="form-label">Password</label>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
     <section class="vh-100">
         <div class="container py-5 h-100">
             <div class="row d-flex align-items-center justify-content-center h-100">
@@ -28,10 +66,13 @@
                     <img th:src="@{resources/images/login-form.jpeg}" alt="Login form" class="img-fluid mb-4">
                 </div>
                 <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-                    <form th:action="@{/login}" method="post">
+                    <form th:action="@{/login}" th:object="${_}" method="post">
                         <fieldset>
                             <div th:if="${param.error}" class="alert alert-danger mb-4">
-                                Invalid username or password(username: user, password: password).
+                                Invalid username or password.
+                            </div>
+                            <div th:if="${param.duplicate}" class="alert alert-danger mb-4">
+                                Duplicated username.
                             </div>
 
                             <!-- Email(email)/Username(text) input -->
@@ -60,6 +101,10 @@
 
                             <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+
+                            <button type="button" class="btn btn-primary btn-lg btn-block" data-mdb-modal-init
+                                data-mdb-target="#registerModal">Sign up</button>
+                            </a>
                         </fieldset>
                     </form>
                 </div>

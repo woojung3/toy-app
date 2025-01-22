@@ -2,7 +2,6 @@ package toy.config;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -77,14 +76,12 @@ public class GlobalSecurityConfig {
     @RequiredArgsConstructor
     public class SecurityService implements UserDetailsService {
 
-        @Autowired
         private final LoginService loginService;
-        @Autowired
         private final PasswordEncoder passwordEncoder;
 
         @PostConstruct
         public void init() {
-            loginService.save(createUser("admin", "admin", passwordEncoder));
+            // loginService.save(createUser("admin", "admin", passwordEncoder));
         }
 
         @Override
