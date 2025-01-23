@@ -95,11 +95,11 @@ public class GlobalSecurityConfig {
                     .build();
         }
 
-        public Member createUser(String username, String password, PasswordEncoder passwordEncoder) {
+        public Member createUser(String username, String password) {
             Member newMember = new Member();
             newMember.setId(null);
             newMember.setUsername(username);
-            newMember.setPassword(passwordEncoder.encode(password));
+            newMember.setPassword(this.passwordEncoder.encode(password));
             return newMember;
         }
 

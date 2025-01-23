@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 import org.springframework.core.env.Environment;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +31,14 @@ import toy.config.service.LoginService;
 public class WebAppController {
     private final String appMode;
     private final LoginService loginService;
-    private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
 
     public WebAppController(
             Environment environment,
             LoginService loginService,
-            PasswordEncoder passwordEncoder,
             SecurityService securityService) {
         appMode = environment.getProperty("app-mode");
         this.loginService = loginService;
-        this.passwordEncoder = passwordEncoder;
         this.securityService = securityService;
     }
 
@@ -68,7 +64,7 @@ public class WebAppController {
             Model model) throws IOException {
 
         try {
-            loginService.save(securityService.createUser(username, password, passwordEncoder));
+            loginService.save(securityService.createUser(username, password));
             return "login";
         } catch (Exception e) {
         } finally {
