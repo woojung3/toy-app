@@ -14,6 +14,9 @@ class ToyApplicationModuleTests {
         modules.forEach(System.out::println);
 
         new Documenter(modules)
+                .writeModulesAsPlantUml()
+                .writeIndividualModulesAsPlantUml()
+                .writeModuleCanvases()
                 .writeAggregatingDocument();
     }
 }
