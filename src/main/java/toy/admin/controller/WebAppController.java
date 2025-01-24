@@ -3,7 +3,6 @@ package toy.admin.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,54 +22,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import toy.config.GlobalSecurityConfig.SecurityService;
-import toy.config.service.LoginService;
 
 @Slf4j
 @Controller
 public class WebAppController {
     private final String appMode;
-    private final LoginService loginService;
-    private final SecurityService securityService;
 
     public WebAppController(
-            Environment environment,
-            LoginService loginService,
-            SecurityService securityService) {
+            Environment environment) {
         appMode = environment.getProperty("app-mode");
-        this.loginService = loginService;
-        this.securityService = securityService;
     }
 
     @GetMapping("/")
     public String index(Model model) throws IOException {
-        model.addAttribute("datetime", new Date());
-        model.addAttribute("username", "@hendisantika34");
-        model.addAttribute("projectname", "WebApp");
-        model.addAttribute("mode", appMode);
-
         return "sample";
-    }
-
-    @GetMapping("/login")
-    public String login(Model model) throws IOException {
-        return "login";
-    }
-
-    @PostMapping("/register")
-    public String register(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            Model model) throws IOException {
-
-        try {
-            loginService.save(securityService.createUser(username, password));
-            return "login";
-        } catch (Exception e) {
-        } finally {
-        }
-
-        return "redirect:/login?duplicate";
     }
 
     @GetMapping("/sample")
